@@ -1,0 +1,64 @@
+<html>
+<head>
+<title>Spiral</title>
+<script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var c = document.getElementById('c');
+	var context = c.getContext("2d");
+	var centerx = context.canvas.width / 2;
+	var centery = context.canvas.height / 2;
+
+	$('#draw').click(function() {
+		var baseRadius = parseFloat($("#baseRadius").val());
+		var ratio = parseFloat($('#ratio').val());
+		var innerRadius = parseFloat($("#innerRadius").val());
+		context.clearRect(0, 0, 900, 750);
+		
+		var x = centerx,y=centery;
+		
+		context.moveTo(centerx + baseRadius, centery);
+		context.beginPath();
+		
+		for (outerAngle = 0; outerAngle < 2 * Math.PI; outerAngle+=0.005) {			
+					
+			//find The x and y of the base circle. (The center of the spirograph tool)
+			var xPrime =  baseRadius * Math.cos(outerAngle);
+			var yPrime =  baseRadius * Math.sin(outerAngle);
+			
+			//now, go in a smaller circle within the primary circle			
+			var innerAngle = outerAngle * ratio; //??
+			var innerX = innerRadius * Math.cos(innerAngle);
+			var innerY = innerRadius * Math.sin(innerAngle);
+			
+			
+			//translate to canvas coordinates
+			var x = centerx + xPrime + innerX;
+			var y = centery + yPrime + innerY; 
+
+
+			context.lineTo(x, y);
+
+		}
+		context.stroke();			
+		
+
+	});
+});
+</script>
+</head>
+<body>
+
+<canvas id="c" width="900" height="750"></canvas>
+<br/>
+Outer Radius <input id="baseRadius" type="text" value='40'/>
+<br/>
+Inner Radius <input id="innerRadius" type="text" value="25" />
+<br/>
+Curve Density7: <input id="ratio" type="text" value='1'/>
+<br/>
+
+<button id="draw">Draw</button> 
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<html>
+<head>
+<title>Spiral</title>
+<script type="text/javascript" src="jquery-1.12.3.min.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var c = document.getElementById('c');
+	var context = c.getContext("2d");
+	var centerx = context.canvas.width / 2;
+	var centery = context.canvas.height / 2;
+
+	$('#draw').click(function() {
+		baseRadius = parseFloat($("#baseRadius").val());
+		amplitude = parseFloat($('#amplitude').val());
+
+		context.clearRect(0, 0, 300, 300);
+		
+		var x = centerx,y=centery;
+		
+		
+		
+		for (angle = 0; angle < 23 * Math.PI; angle+=0.1) {			
+			context.beginPath();
+			context.moveTo(x,y);
+			var pies = (angle/Math.PI)%2;
+			
+
+
+			if (pies > .25 && pies < .75){
+				context.strokeStyle = "red";
+				
+				
+			}else if (pies > 1.25 && pies < 1.75){
+				context.strokeStyle = "blue";
+				
+			}else{
+				
+				context.strokeStyle = "black";
+			}
+			
+			//find x and y in the traditional cartesian plane
+			cartesianX = (baseRadius + amplitude * angle) * Math.cos(angle);
+			cartesianY = (baseRadius + amplitude * angle) * Math.sin(angle);
+			//translate to canvas coordinates
+			x = centerx + cartesianX;
+			y = centery + cartesianY; 
+
+
+			context.lineTo(x, y);
+			context.stroke();	
+		}
+		
+		
+
+	});
+});
+</script>
+</head>
+<body>
+
+<canvas id="c" width="900" height="750"></canvas>
+<br/>
+Base Radius <input id="baseRadius" type="text" value='1'/>
+<br/>
+Amplitude: <input id="amplitude" type="text" value='1'/>
+<br/>
+
+<button id="draw">Draw</button> 
+
+</body>
+</html>
